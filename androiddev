@@ -1,6 +1,5 @@
 fun main() {    
     initDB()
-    println("Hello World")
     // Test functions here
 }
 
@@ -21,25 +20,31 @@ val invalidCard2 = PaymentInfo("", 11113333, 1222)
 // This database is treated as a global variable that we can access directly in addCardToDatabase
 val cardDataBase = mutableMapOf<Int, PaymentInfo>()
 
-// Don't change this function
 fun initDB() {
     cardDataBase[storedCard1.cardNumber] = storedCard1
     cardDataBase[storedCard2.cardNumber] = storedCard2
 }
 
 fun validInfo(paymentInfo: PaymentInfo): Boolean {
-    // TODO validate paymentInfo according to instructions
-    //use PaymentInfo data class 
-    if ((paymentInfo.cardNumber).toString().length != 7 || (paymentInfo.cardCVV).toString().length != 2 || paymentInfo.cardOwner.length == 0) {
+    if (paymentInfo.cardOwner.isEmpty()) {
         return false
     }
-    else {
-        return true
+    if (paymentInfo.cardNumber.toString().length != 8) {
+        return false
     }
+    if (paymentInfo.cardCVV.toString().length != 3) {
+        return false
+    }
+    return true
 }
 
 fun addCardToDatabase(paymentInfo: PaymentInfo): Boolean {
-    // TODO check if we can add card to database according to instructions 
-    // use println("ERROR) and return false if the card has already been added 
-    // use println("SUCCESS"), add the card to the database, and return true if the card can be added
-    return false
+    if(cardDataBase[paymentInfo.cardNumber] == null) {
+        println("SUCCESS")
+        cardDataBase[paymentInfo.cardNumber] = paymentInfo
+        return true
+    } else {
+        println("ERROR")
+        return false
+    }
+}
